@@ -60,3 +60,16 @@ TEST_F(OrderRepositoryTest, GetNextSequenceIncrements) {
     repo_->save({"ORD-20260612-0002", "S-001", "Bob", 20, OrderStatus::RESERVED, "2026-06-12", ""});
     EXPECT_EQ(repo_->getNextSequence("20260612"), 3);
 }
+
+// T12: getNextSequence returns 1 for a different date (date-based reset)
+TEST_F(OrderRepositoryTest, GetNextSequenceResetsForDifferentDate) {
+    repo_->save({"ORD-20260612-0001", "S-001", "Alice", 10, OrderStatus::RESERVED, "2026-06-12", ""});
+    repo_->save({"ORD-20260612-0002", "S-001", "Bob",   20, OrderStatus::RESERVED, "2026-06-12", ""});
+    EXPECT_EQ(repo_->getNextSequence("20260613"), 1);
+}
+
+// T13: update with non-existent ID throws runtime_error
+TEST_F(OrderRepositoryTest, UpdateNonExistentIdThrows) {
+    Order o{"ORD-20260612-9999", "S-001", "Ghost", 10, OrderStatus::RESERVED, "2026-06-12", ""};
+    EXPECT_THROW(repo_->update(o), std::runtime_error);
+}

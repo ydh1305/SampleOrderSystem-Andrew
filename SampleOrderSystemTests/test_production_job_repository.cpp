@@ -61,3 +61,29 @@ TEST_F(ProductionJobRepositoryTest, GenerateNextIdIncrements) {
     repo_->save({"JOB-002", "ORD-002", "S-001", 20, 25, 3.0, JobStatus::WAITING, "2026-06-12", "", ""});
     EXPECT_EQ(repo_->generateNextId(), "JOB-003");
 }
+
+// T17: findRunning returns the RUNNING job
+TEST_F(ProductionJobRepositoryTest, FindRunningReturnsRunningJob) {
+    repo_->save({"JOB-001", "ORD-001", "S-001", 10, 12, 2.0, JobStatus::WAITING,  "2026-06-12 09:00:00", "",                   ""});
+    repo_->save({"JOB-002", "ORD-002", "S-001", 20, 25, 3.0, JobStatus::RUNNING,  "2026-06-12 09:05:00", "2026-06-12 09:10:00", ""});
+    auto running = repo_->findRunning();
+    ASSERT_TRUE(running.has_value());
+    EXPECT_EQ(running->jobId, "JOB-002");
+}
+
+// T18: findRunning returns nullopt when no RUNNING job
+TEST_F(ProductionJobRepositoryTest, FindRunningReturnsNulloptWhenNone) {
+    repo_->save({"JOB-001", "ORD-001", "S-001", 10, 12, 2.0, JobStatus::WAITING, "2026-06-12 09:00:00", "", ""});
+    EXPECT_FALSE(repo_->findRunning().has_value());
+}
+
+// T19: findWaiting returns WAITING jobs sorted by enqueuedAt ascending
+TEST_F(ProductionJobRepositoryTest, FindWaitingReturnsSortedByEnqueuedAt) {
+    repo_->save({"JOB-001", "ORD-001", "S-001", 10, 12, 2.0, JobStatus::WAITING, "2026-06-12 09:10:00", "",                   ""});
+    repo_->save({"JOB-002", "ORD-002", "S-001", 20, 25, 3.0, JobStatus::RUNNING, "2026-06-12 09:05:00", "2026-06-12 09:06:00", ""});
+    repo_->save({"JOB-003", "ORD-003", "S-002", 15, 18, 2.5, JobStatus::WAITING, "2026-06-12 09:00:00", "",                   ""});
+    auto waiting = repo_->findWaiting();
+    ASSERT_EQ(waiting.size(), 2u);
+    EXPECT_EQ(waiting[0].jobId, "JOB-003");
+    EXPECT_EQ(waiting[1].jobId, "JOB-001");
+}

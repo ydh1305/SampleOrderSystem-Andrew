@@ -14,4 +14,6 @@ public:
     virtual std::vector<ProductionJob>   findByStatus(JobStatus status) const   = 0;
     virtual void                         update(const ProductionJob& job)       = 0;
     virtual std::string                  generateNextId() const                 = 0;
+    virtual std::optional<ProductionJob> findRunning() const                   = 0;
+    virtual std::vector<ProductionJob>   findWaiting() const                   = 0;  // enqueuedAt 오름차순
 };
