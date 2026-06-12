@@ -1,18 +1,20 @@
 #pragma once
 #include <string>
-#include "IModel.h"
-#include "JobStatus.h"
+#include "storage/JsonValue.h"
+#include "model/JobStatus.h"
 
-struct ProductionJob : public IModel {
+struct ProductionJob {
     std::string jobId;
     std::string orderId;
     std::string sampleId;
     int         shortage            = 0;
-    int         actualProduction    = 0;
-    double      totalProductionTime = 0.0;
+    int         actualProd          = 0;
+    double      totalTime           = 0.0;
     JobStatus   status              = JobStatus::WAITING;
     std::string enqueuedAt;
+    std::string startedAt;
+    std::string completedAt;
 
-    JsonValue toJson() const override;
-    void fromJson(const JsonValue& json) override;
+    JsonValue           toJson() const;
+    static ProductionJob fromJson(const JsonValue& json);
 };

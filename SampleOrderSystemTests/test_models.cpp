@@ -2,9 +2,9 @@
 #include "model/OrderStatus.h"
 #include "model/JobStatus.h"
 
-// ── Cycle 1: Enum 문자열 변환 (T1~T3) ─────────────────────────────────
+// Cycle 1: Enum string conversion (T1~T3)
 
-// T1: toString - OrderStatus 전체 5개 값
+// T1: toString - all 5 OrderStatus values
 TEST(OrderStatusTest, ToStringAllValues) {
     EXPECT_EQ(toString(OrderStatus::RESERVED),  "RESERVED");
     EXPECT_EQ(toString(OrderStatus::REJECTED),  "REJECTED");
@@ -13,7 +13,7 @@ TEST(OrderStatusTest, ToStringAllValues) {
     EXPECT_EQ(toString(OrderStatus::RELEASED),  "RELEASED");
 }
 
-// T2: fromString - OrderStatus 전체 5개 값
+// T2: fromString - all 5 OrderStatus values
 TEST(OrderStatusTest, FromStringAllValues) {
     EXPECT_EQ(orderStatusFromString("RESERVED"),  OrderStatus::RESERVED);
     EXPECT_EQ(orderStatusFromString("REJECTED"),  OrderStatus::REJECTED);
@@ -22,11 +22,13 @@ TEST(OrderStatusTest, FromStringAllValues) {
     EXPECT_EQ(orderStatusFromString("RELEASED"),  OrderStatus::RELEASED);
 }
 
-// T3: toString -> fromString 라운드트립
+// T3: toString -> fromString round-trip
 TEST(OrderStatusTest, RoundTrip) {
-    for (auto s : {OrderStatus::RESERVED, OrderStatus::REJECTED,
-                   OrderStatus::PRODUCING, OrderStatus::CONFIRMED,
-                   OrderStatus::RELEASED}) {
+    OrderStatus values[] = {
+        OrderStatus::RESERVED, OrderStatus::REJECTED,
+        OrderStatus::PRODUCING, OrderStatus::CONFIRMED, OrderStatus::RELEASED
+    };
+    for (auto s : values) {
         EXPECT_EQ(orderStatusFromString(toString(s)), s);
     }
 }

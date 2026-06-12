@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-#include "IModel.h"
-#include "OrderStatus.h"
+#include "storage/JsonValue.h"
+#include "model/OrderStatus.h"
 
-struct Order : public IModel {
+struct Order {
     std::string orderId;
     std::string sampleId;
     std::string customerName;
@@ -12,6 +12,6 @@ struct Order : public IModel {
     std::string createdAt;
     std::string updatedAt;
 
-    JsonValue toJson() const override;
-    void fromJson(const JsonValue& json) override;
+    JsonValue    toJson() const;
+    static Order fromJson(const JsonValue& json);
 };
