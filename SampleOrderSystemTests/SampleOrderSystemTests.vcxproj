@@ -101,6 +101,12 @@
     <ClCompile Include="..\SampleOrderSystem\src\repository\ProductionJobRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\service\OrderApprovalService.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\service\ProductionService.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\controller\SampleController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\controller\OrderController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\controller\MonitoringController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\controller\ReleaseController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\controller\ProductionController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\controller\MainController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
