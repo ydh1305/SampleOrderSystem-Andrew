@@ -3,9 +3,9 @@
 #include "view/ConsoleUtil.h"
 #include <stdexcept>
 
-OrderApprovalService::OrderApprovalService(SampleRepository& sampleRepo,
-                                           OrderRepository& orderRepo,
-                                           ProductionJobRepository& jobRepo)
+OrderApprovalService::OrderApprovalService(ISampleRepository& sampleRepo,
+                                           IOrderRepository& orderRepo,
+                                           IProductionJobRepository& jobRepo)
     : sampleRepo_(sampleRepo), orderRepo_(orderRepo), jobRepo_(jobRepo) {}
 
 void OrderApprovalService::approve(const std::string& orderId) {

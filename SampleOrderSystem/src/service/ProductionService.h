@@ -1,19 +1,19 @@
 #pragma once
-#include "repository/SampleRepository.h"
-#include "repository/OrderRepository.h"
-#include "repository/ProductionJobRepository.h"
+#include "ISampleRepository.h"
+#include "IOrderRepository.h"
+#include "IProductionJobRepository.h"
 
 class ProductionService {
 public:
-    ProductionService(SampleRepository& sampleRepo,
-                      OrderRepository& orderRepo,
-                      ProductionJobRepository& jobRepo);
+    ProductionService(ISampleRepository& sampleRepo,
+                      IOrderRepository& orderRepo,
+                      IProductionJobRepository& jobRepo);
 
     void completeCurrentJob();
     void startNextJob();
 
 private:
-    SampleRepository&          sampleRepo_;
-    OrderRepository&           orderRepo_;
-    ProductionJobRepository&   jobRepo_;
+    ISampleRepository&          sampleRepo_;
+    IOrderRepository&           orderRepo_;
+    IProductionJobRepository&   jobRepo_;
 };
