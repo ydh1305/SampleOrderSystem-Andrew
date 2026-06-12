@@ -7,7 +7,7 @@ class JsonStorage {
 public:
     explicit JsonStorage(const std::string& filePath);
 
-    std::vector<JsonValue> loadAll();
+    std::vector<JsonValue> loadAll() const;
     void saveAll(const std::vector<JsonValue>& items);
 
 private:

@@ -11,7 +11,7 @@ void JsonStorage::ensureDirectoryExists() const {
         std::filesystem::create_directories(p.parent_path());
 }
 
-std::vector<JsonValue> JsonStorage::loadAll() {
+std::vector<JsonValue> JsonStorage::loadAll() const {
     std::ifstream file(filePath_);
     if (!file.is_open()) return {};
 
