@@ -88,6 +88,8 @@
     <ClCompile Include="test_order_repository.cpp" />
     <ClCompile Include="test_production_job_repository.cpp" />
     <ClCompile Include="test_controllers.cpp" />
+    <ClCompile Include="test_model_utils.cpp" />
+    <ClCompile Include="test_views.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonValue.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonParser.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonStorage.cpp" />
@@ -96,6 +98,8 @@
     <ClCompile Include="..\SampleOrderSystem\src\model\Order.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\model\ProductionJob.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\model\ProductionCalculator.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\model\OrderIdGenerator.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\model\ProductionQueue.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\SampleRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\OrderRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\ProductionJobRepository.cpp" />
@@ -107,6 +111,12 @@
     <ClCompile Include="..\SampleOrderSystem\src\controller\ReleaseController.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\controller\ProductionController.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\controller\MainController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\view\SampleView.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\view\OrderView.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\view\MonitoringView.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\view\ReleaseView.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\view\ProductionView.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\view\MainView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
