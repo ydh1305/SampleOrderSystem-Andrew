@@ -14,7 +14,11 @@ JsonType JsonValue::type() const { return type_; }
 
 bool        JsonValue::asBool()   const { if (type_ != JsonType::Bool)   throw std::runtime_error("not Bool");   return boolVal_;   }
 int         JsonValue::asInt()    const { if (type_ != JsonType::Int)    throw std::runtime_error("not Int");    return intVal_;    }
-double      JsonValue::asDouble() const { if (type_ != JsonType::Double) throw std::runtime_error("not Double"); return doubleVal_; }
+double      JsonValue::asDouble() const {
+    if (type_ == JsonType::Double) return doubleVal_;
+    if (type_ == JsonType::Int)    return static_cast<double>(intVal_);
+    throw std::runtime_error("not Double");
+}
 const std::string& JsonValue::asString() const { if (type_ != JsonType::String) throw std::runtime_error("not String"); return strVal_; }
 const std::vector<JsonValue>&           JsonValue::asArray()  const { if (type_ != JsonType::Array)  throw std::runtime_error("not Array");  return arrVal_; }
 const std::map<std::string, JsonValue>& JsonValue::asObject() const { if (type_ != JsonType::Object) throw std::runtime_error("not Object"); return objVal_; }
