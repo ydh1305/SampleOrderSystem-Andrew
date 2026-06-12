@@ -38,8 +38,13 @@ void OrderApprovalService::approve(const std::string& orderId) {
         job.shortage   = shortage;
         job.actualProd = actualProd;
         job.totalTime  = totalTime;
-        job.status     = JobStatus::WAITING;
         job.enqueuedAt = ConsoleUtil::getCurrentDateTime();
+        if (!jobRepo_.findRunning().has_value()) {
+            job.status    = JobStatus::RUNNING;
+            job.startedAt = ConsoleUtil::getCurrentDateTime();
+        } else {
+            job.status = JobStatus::WAITING;
+        }
         jobRepo_.save(job);
 
         order.status    = OrderStatus::PRODUCING;
