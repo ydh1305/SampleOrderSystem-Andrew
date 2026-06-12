@@ -369,3 +369,6 @@ github-mcp-server.exe
 # 구현 계획 문서 — master에서 제외, feature 브랜치에서만 관리
 # feature 브랜치에서 추적하려면: git add -f temp_docs/
 temp_docs/
+# 개발 중 생성되는 임시 파일
+coverage_report/
+SampleOrderSystemTests/debug_test.cpp
