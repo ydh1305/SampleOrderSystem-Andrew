@@ -63,3 +63,18 @@ std::string ProductionJobRepository::generateNextId() const {
     ss << "JOB-" << std::setw(3) << std::setfill('0') << (maxNum + 1);
     return ss.str();
 }
+
+std::optional<ProductionJob> ProductionJobRepository::findRunning() const {
+    for (const auto& j : findAll())
+        if (j.status == JobStatus::RUNNING) return j;
+    return std::nullopt;
+}
+
+std::vector<ProductionJob> ProductionJobRepository::findWaiting() const {
+    auto waiting = findByStatus(JobStatus::WAITING);
+    std::sort(waiting.begin(), waiting.end(),
+        [](const ProductionJob& a, const ProductionJob& b) {
+            return a.enqueuedAt < b.enqueuedAt;
+        });
+    return waiting;
+}
