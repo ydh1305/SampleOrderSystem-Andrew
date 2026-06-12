@@ -62,8 +62,8 @@ RELEASED   → 출고 완료
 | orderId | String | 연결된 주문 ID |
 | sampleId | String | 생산할 시료 ID |
 | shortage | int | 부족분 수량 |
-| actualProduction | int | 실 생산량 (`ceil(shortage / (yieldRate × 0.9))`) |
-| totalProductionTime | double | 총 생산 시간 (min) |
+| actualProd | int | 실 생산량 (`ceil(shortage / (yieldRate × 0.9))`) |
+| totalTime | double | 총 생산 시간 (min) |
 | status | JobStatus | WAITING / RUNNING / DONE |
 | enqueuedAt | LocalDateTime | 큐 등록 시각 |
 
@@ -160,31 +160,49 @@ RELEASED   → 출고 완료
 
 ---
 
-## 8. 패키지 구조 (Java 기준 예시)
+## 8. 패키지 구조 (C++ 기준)
+
+> 전체 디렉터리 구조는 `docs/architecture.md` 3절을 참조한다.
+
+핵심 구성만 요약하면 다음과 같다:
 
 ```
-com.ssemi.order/
-├── Main.java
-├── model/
-│   ├── Sample.java
-│   ├── Order.java
-│   ├── OrderStatus.java
-│   └── ProductionJob.java
-├── controller/
-│   ├── SampleController.java
-│   ├── OrderController.java
-│   ├── ProductionController.java
-│   └── MonitoringController.java
-├── view/
-│   ├── MainView.java
-│   ├── SampleView.java
-│   ├── OrderView.java
-│   ├── ProductionView.java
-│   └── MonitoringView.java
-└── repository/
-    ├── SampleRepository.java
-    ├── OrderRepository.java
-    └── ProductionJobRepository.java
+SampleOrderSystem/
+├── main.cpp
+├── include/                    ← 공용 인터페이스 헤더
+│   ├── IController.h
+│   ├── IView.h
+│   ├── IModel.h
+│   ├── ISampleRepository.h
+│   ├── IOrderRepository.h
+│   └── IProductionJobRepository.h
+└── src/
+    ├── model/                  ← 도메인 엔티티 + 비즈니스 로직
+    │   ├── Sample.h/.cpp
+    │   ├── Order.h/.cpp
+    │   ├── ProductionJob.h/.cpp
+    │   ├── OrderStatus.h
+    │   ├── JobStatus.h
+    │   └── ProductionCalculator.h/.cpp
+    ├── view/                   ← 콘솔 I/O
+    │   ├── ConsoleUtil.h/.cpp
+    │   ├── MainView.h/.cpp
+    │   ├── SampleView.h/.cpp
+    │   ├── OrderView.h/.cpp
+    │   ├── ProductionView.h/.cpp
+    │   ├── MonitoringView.h/.cpp
+    │   └── ReleaseView.h/.cpp
+    ├── controller/             ← 흐름 제어
+    │   ├── MainController.h/.cpp
+    │   ├── SampleController.h/.cpp
+    │   ├── OrderController.h/.cpp
+    │   ├── ProductionController.h/.cpp
+    │   ├── MonitoringController.h/.cpp
+    │   └── ReleaseController.h/.cpp
+    └── repository/             ← 데이터 접근
+        ├── SampleRepository.h/.cpp
+        ├── OrderRepository.h/.cpp
+        └── ProductionJobRepository.h/.cpp
 ```
 
 ---
