@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# MCP 설정 (PAT 포함 민감 정보)
+.mcp.json
+github-mcp-server.exe
