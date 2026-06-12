@@ -99,6 +99,7 @@
     <ClCompile Include="..\SampleOrderSystem\src\repository\OrderRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\ProductionJobRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\service\OrderApprovalService.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\service\ProductionService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
