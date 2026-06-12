@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleOrderSystem", "SampleOrderSystem\SampleOrderSystem.vcxproj", "{A4D38FDB-5A1B-4A33-8E95-4C0A3B22F842}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleOrderSystemTests", "SampleOrderSystemTests\SampleOrderSystemTests.vcxproj", "{C5487F45-1624-45B0-B319-DD1952635087}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{A4D38FDB-5A1B-4A33-8E95-4C0A3B22F842}.Debug|x64.Build.0 = Debug|x64
 		{A4D38FDB-5A1B-4A33-8E95-4C0A3B22F842}.Release|x64.ActiveCfg = Release|x64
 		{A4D38FDB-5A1B-4A33-8E95-4C0A3B22F842}.Release|x64.Build.0 = Release|x64
+		{C5487F45-1624-45B0-B319-DD1952635087}.Debug|x64.ActiveCfg = Debug|x64
+		{C5487F45-1624-45B0-B319-DD1952635087}.Debug|x64.Build.0 = Debug|x64
+		{C5487F45-1624-45B0-B319-DD1952635087}.Release|x64.ActiveCfg = Release|x64
+		{C5487F45-1624-45B0-B319-DD1952635087}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
