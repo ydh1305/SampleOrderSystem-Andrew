@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="main_test.cpp" />
     <ClCompile Include="test_json_parser.cpp" />
+    <ClCompile Include="test_json_storage.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonValue.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonParser.cpp" />
   </ItemGroup>
