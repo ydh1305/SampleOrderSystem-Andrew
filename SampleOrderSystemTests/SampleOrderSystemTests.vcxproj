@@ -93,6 +93,7 @@
     <ClCompile Include="..\SampleOrderSystem\src\model\ProductionJob.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\SampleRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\OrderRepository.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\repository\ProductionJobRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
