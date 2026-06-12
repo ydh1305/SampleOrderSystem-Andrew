@@ -12,7 +12,7 @@ TEST(OrderIdGeneratorTest, GenerateFormatsCorrectly) {
 TEST(OrderIdGeneratorTest, GeneratePadsSequenceTo4Digits) {
     std::string id = OrderIdGenerator::generate("20260612", 1);
     EXPECT_EQ(id, "ORD-20260612-0001");
-    EXPECT_EQ(id.size(), 19u);
+    EXPECT_EQ(id.size(), 17u);
 }
 
 // T3: getDatePart extracts date from order ID
