@@ -14,12 +14,12 @@ JsonValue Order::toJson() const {
 
 Order Order::fromJson(const JsonValue& json) {
     Order o;
-    o.orderId      = json["orderId"].asString();
-    o.sampleId     = json["sampleId"].asString();
-    o.customerName = json["customerName"].asString();
-    o.quantity     = json["quantity"].asInt();
-    o.status       = orderStatusFromString(json["status"].asString());
-    o.createdAt    = json["createdAt"].asString();
-    o.updatedAt    = json["updatedAt"].asString();
+    o.orderId      = json.contains("orderId")      ? json["orderId"].asString()                        : "";
+    o.sampleId     = json.contains("sampleId")     ? json["sampleId"].asString()                      : "";
+    o.customerName = json.contains("customerName") ? json["customerName"].asString()                   : "";
+    o.quantity     = json.contains("quantity")     ? json["quantity"].asInt()                          : 0;
+    o.status       = json.contains("status")       ? orderStatusFromString(json["status"].asString())  : OrderStatus::RESERVED;
+    o.createdAt    = json.contains("createdAt")    ? json["createdAt"].asString()                      : "";
+    o.updatedAt    = json.contains("updatedAt")    ? json["updatedAt"].asString()                      : "";
     return o;
 }

@@ -12,10 +12,10 @@ JsonValue Sample::toJson() const {
 
 Sample Sample::fromJson(const JsonValue& json) {
     Sample s;
-    s.sampleId          = json["sampleId"].asString();
-    s.name              = json["name"].asString();
-    s.avgProductionTime = json["avgProductionTime"].asDouble();
-    s.yieldRate         = json["yieldRate"].asDouble();
-    s.stock             = json["stock"].asInt();
+    s.sampleId          = json.contains("sampleId")          ? json["sampleId"].asString()          : "";
+    s.name              = json.contains("name")              ? json["name"].asString()              : "";
+    s.avgProductionTime = json.contains("avgProductionTime") ? json["avgProductionTime"].asDouble() : 0.0;
+    s.yieldRate         = json.contains("yieldRate")         ? json["yieldRate"].asDouble()         : 0.0;
+    s.stock             = json.contains("stock")             ? json["stock"].asInt()                : 0;
     return s;
 }

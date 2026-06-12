@@ -17,15 +17,15 @@ JsonValue ProductionJob::toJson() const {
 
 ProductionJob ProductionJob::fromJson(const JsonValue& json) {
     ProductionJob job;
-    job.jobId       = json["jobId"].asString();
-    job.orderId     = json["orderId"].asString();
-    job.sampleId    = json["sampleId"].asString();
-    job.shortage    = json["shortage"].asInt();
-    job.actualProd  = json["actualProd"].asInt();
-    job.totalTime   = json["totalTime"].asDouble();
-    job.status      = jobStatusFromString(json["status"].asString());
-    job.enqueuedAt  = json["enqueuedAt"].asString();
-    job.startedAt   = json["startedAt"].asString();
-    job.completedAt = json["completedAt"].asString();
+    job.jobId       = json.contains("jobId")       ? json["jobId"].asString()                       : "";
+    job.orderId     = json.contains("orderId")     ? json["orderId"].asString()                     : "";
+    job.sampleId    = json.contains("sampleId")    ? json["sampleId"].asString()                    : "";
+    job.shortage    = json.contains("shortage")    ? json["shortage"].asInt()                       : 0;
+    job.actualProd  = json.contains("actualProd")  ? json["actualProd"].asInt()                     : 0;
+    job.totalTime   = json.contains("totalTime")   ? json["totalTime"].asDouble()                   : 0.0;
+    job.status      = json.contains("status")      ? jobStatusFromString(json["status"].asString()) : JobStatus::WAITING;
+    job.enqueuedAt  = json.contains("enqueuedAt")  ? json["enqueuedAt"].asString()                  : "";
+    job.startedAt   = json.contains("startedAt")   ? json["startedAt"].asString()                   : "";
+    job.completedAt = json.contains("completedAt") ? json["completedAt"].asString()                 : "";
     return job;
 }
