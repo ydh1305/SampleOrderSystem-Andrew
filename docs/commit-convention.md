@@ -24,7 +24,7 @@
 
 | Type | 사용 시점 |
 |------|-----------|
-| `feat` | 새로운 기능 추가 |
+| `feature` | 새로운 기능 추가 |
 | `fix` | 버그 수정 |
 | `refactor` | 동작 변경 없는 코드 구조 개선 |
 | `test` | 테스트 추가·수정 (프로덕션 코드 변경 없음) |
@@ -65,32 +65,32 @@
 ## 예시
 
 ```
-feat(order): 주문 접수 시 RESERVED 상태로 주문번호 자동 생성
+[feature] order: 주문 접수 시 RESERVED 상태로 주문번호 자동 생성
 
 주문번호는 ORD-YYYYMMDD-NNNN 형식으로 생성하며,
 재실행 후에도 순번이 유지되도록 영속성 계층에서 관리한다.
 ```
 
 ```
-fix(production): 실 생산량 계산 시 ceil 미적용 버그 수정
+[fix] production: 실 생산량 계산 시 ceil 미적용 버그 수정
 ```
 
 ```
-feat(storage): JsonStorage에 orders.json CRUD 구현
+[feature] storage: JsonStorage에 orders.json CRUD 구현
 ```
 
 ```
-refactor(order): OrderController에서 재고 확인 로직을 OrderService로 분리
+[refactor] order: OrderController에서 재고 확인 로직을 OrderService로 분리
 ```
 
 ```
-docs(docs): commit-convention.md 및 code-convention.md 추가
+[docs] docs: commit-convention.md 및 code-convention.md 추가
 ```
 
 ```
-test(production): 생산량 계산 공식 단위 테스트 추가
+[test] production: 생산량 계산 공식 단위 테스트 추가
 ```
 
 ```
-chore: .gitignore에 Visual Studio 빌드 산출물 추가
+[chore] .gitignore에 Visual Studio 빌드 산출물 추가
 ```
