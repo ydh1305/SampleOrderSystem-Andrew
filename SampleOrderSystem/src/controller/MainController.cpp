@@ -62,7 +62,7 @@ void MainController::run() {
         case 2: orderCtrl.placeOrder();             break;
         case 3: orderCtrl.processApproval();        break;
         case 4: monCtrl.run();                     break;
-        case 5: prodCtrl.showProductionLine();     break;
+        case 5: prodCtrl.run();                    break;
         case 6: releaseCtrl.processRelease();      break;
         default: out_ << "잘못된 선택입니다.\n";  break;
         }
