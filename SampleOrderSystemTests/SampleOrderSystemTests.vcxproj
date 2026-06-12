@@ -82,6 +82,7 @@
     <ClCompile Include="test_console_util.cpp" />
     <ClCompile Include="test_models.cpp" />
     <ClCompile Include="test_sample_repository.cpp" />
+    <ClCompile Include="test_order_repository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonValue.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonParser.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonStorage.cpp" />
