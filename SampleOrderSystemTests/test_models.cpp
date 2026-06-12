@@ -3,6 +3,7 @@
 #include "model/JobStatus.h"
 #include "model/Sample.h"
 #include "model/Order.h"
+#include "model/ProductionJob.h"
 
 // Cycle 1: Enum string conversion (T1~T3)
 
@@ -132,4 +133,45 @@ TEST(OrderModelTest, RoundTrip) {
     EXPECT_EQ(restored.status,       original.status);
     EXPECT_EQ(restored.createdAt,    original.createdAt);
     EXPECT_EQ(restored.updatedAt,    original.updatedAt);
+}
+
+// Cycle 4: ProductionJob serialization (T10~T11)
+
+// T10: toJson includes empty string fields (startedAt, completedAt)
+TEST(ProductionJobModelTest, ToJsonIncludesEmptyStringFields) {
+    ProductionJob job;
+    job.jobId      = "JOB-20260612-0001";
+    job.startedAt  = "";
+    job.completedAt = "";
+
+    JsonValue json = job.toJson();
+    EXPECT_EQ(json["startedAt"].asString(),   "");
+    EXPECT_EQ(json["completedAt"].asString(), "");
+}
+
+// T11: toJson -> fromJson round-trip
+TEST(ProductionJobModelTest, RoundTrip) {
+    ProductionJob original;
+    original.jobId       = "JOB-20260612-0001";
+    original.orderId     = "ORD-20260612-0043";
+    original.sampleId    = "S-003";
+    original.shortage    = 170;
+    original.actualProd  = 206;
+    original.totalTime   = 164.8;
+    original.status      = JobStatus::WAITING;
+    original.enqueuedAt  = "2026-06-12 09:15:00";
+    original.startedAt   = "";
+    original.completedAt = "";
+
+    ProductionJob restored = ProductionJob::fromJson(original.toJson());
+    EXPECT_EQ(restored.jobId,       original.jobId);
+    EXPECT_EQ(restored.orderId,     original.orderId);
+    EXPECT_EQ(restored.sampleId,    original.sampleId);
+    EXPECT_EQ(restored.shortage,    original.shortage);
+    EXPECT_EQ(restored.actualProd,  original.actualProd);
+    EXPECT_DOUBLE_EQ(restored.totalTime, original.totalTime);
+    EXPECT_EQ(restored.status,      original.status);
+    EXPECT_EQ(restored.enqueuedAt,  original.enqueuedAt);
+    EXPECT_EQ(restored.startedAt,   original.startedAt);
+    EXPECT_EQ(restored.completedAt, original.completedAt);
 }
