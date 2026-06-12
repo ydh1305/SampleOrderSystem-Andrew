@@ -85,6 +85,7 @@
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonParser.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonStorage.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\view\ConsoleUtil.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\model\Sample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
