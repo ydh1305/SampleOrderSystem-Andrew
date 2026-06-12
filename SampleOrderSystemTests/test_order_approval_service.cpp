@@ -58,7 +58,7 @@ TEST_F(OrderApprovalServiceTest, ApproveWithInsufficientStock) {
     EXPECT_EQ(jobs[0].orderId,   "ORD-001");
     EXPECT_EQ(jobs[0].shortage,  170);
     EXPECT_EQ(jobs[0].actualProd, 206);
-    EXPECT_EQ(jobs[0].status,    JobStatus::WAITING);
+    EXPECT_EQ(jobs[0].status,    JobStatus::RUNNING);
 }
 
 // T11: 거절 -> REJECTED

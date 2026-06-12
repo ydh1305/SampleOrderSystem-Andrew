@@ -47,11 +47,20 @@ void MonitoringController::showStockStatus() {
             if (o.status == OrderStatus::RESERVED)  reserved  += o.quantity;
             if (o.status == OrderStatus::CONFIRMED) confirmed += o.quantity;
         }
-        out_ << s.sampleId << "  " << s.name
+        const char* color;
+        if (s.stock == 0)
+            color = "\033[31m";
+        else if (reserved + confirmed > s.stock)
+            color = "\033[33m";
+        else
+            color = "\033[32m";
+
+        out_ << color
+             << s.sampleId << "  " << s.name
              << "  재고: " << s.stock
              << "  RESERVED: " << reserved
              << "  CONFIRMED: " << confirmed
-             << "\n";
+             << "\033[0m\n";
     }
     if (samples.empty()) {
         out_ << "등록된 시료가 없습니다.\n";

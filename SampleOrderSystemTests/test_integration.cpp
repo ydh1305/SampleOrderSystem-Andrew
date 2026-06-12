@@ -93,3 +93,26 @@ TEST_F(IntegrationTest, ReleaseConfirmedOrder) {
         "0\n");
     EXPECT_THAT(out_.str(), HasSubstr("Carol"));
 }
+
+// T7: stock=30, order=200 -> PRODUCING -> 생산완료 -> CONFIRMED -> 출고 -> RELEASED:1
+TEST_F(IntegrationTest, StockInsufficientFullFlow) {
+    run("1\n1\nWafer\n0.8\n0.92\n30\nY\n0\n"
+        "2\nS-001\nBob\n200\nY\n"
+        "3\n1\nA\n"
+        "5\n2\n0\n"
+        "6\n1\nY\n"
+        "4\n1\n0\n"
+        "0\n");
+    EXPECT_THAT(out_.str(), HasSubstr("RELEASED : 1"));
+}
+
+// T8: REJECTED 주문은 모니터링 카운트에서 제외됨
+TEST_F(IntegrationTest, AfterRejection_AllCountsZero) {
+    run("1\n1\nWafer\n0.8\n0.92\n100\nY\n0\n"
+        "2\nS-001\nAlice\n50\nY\n"
+        "3\n1\nR\n"
+        "4\n1\n0\n"
+        "0\n");
+    EXPECT_THAT(out_.str(), HasSubstr("RESERVED : 0"));
+    EXPECT_THAT(out_.str(), HasSubstr("CONFIRMED: 0"));
+}
