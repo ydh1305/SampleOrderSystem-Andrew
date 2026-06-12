@@ -82,3 +82,26 @@ TEST_F(ProductionServiceTest, StartNextJobStartsOldestWaiting) {
     EXPECT_EQ(jobRepo_->findById("JOB-001")->status, JobStatus::RUNNING);
     EXPECT_EQ(jobRepo_->findById("JOB-002")->status, JobStatus::WAITING);
 }
+
+// T18: 3개 작업 FIFO 순서 - enqueuedAt 오름차순으로 처리
+TEST_F(ProductionServiceTest, ThreeJobsFifoOrder) {
+    sampleRepo_->save({"S-001", "Wafer", 0.8, 0.92, 0});
+    orderRepo_->save({"ORD-001", "S-001", "A", 50, OrderStatus::PRODUCING, "2026-06-12", ""});
+    orderRepo_->save({"ORD-002", "S-001", "B", 50, OrderStatus::PRODUCING, "2026-06-12", ""});
+    orderRepo_->save({"ORD-003", "S-001", "C", 50, OrderStatus::PRODUCING, "2026-06-12", ""});
+    jobRepo_->save({"JOB-001", "ORD-001", "S-001", 50, 61, 48.8,
+                    JobStatus::RUNNING,  "2026-06-12 09:00:00", "2026-06-12 09:05:00", ""});
+    jobRepo_->save({"JOB-002", "ORD-002", "S-001", 50, 61, 48.8,
+                    JobStatus::WAITING,  "2026-06-12 09:10:00", "", ""});
+    jobRepo_->save({"JOB-003", "ORD-003", "S-001", 50, 61, 48.8,
+                    JobStatus::WAITING,  "2026-06-12 09:20:00", "", ""});
+
+    svc_->completeCurrentJob();
+    EXPECT_EQ(jobRepo_->findById("JOB-001")->status, JobStatus::DONE);
+    EXPECT_EQ(jobRepo_->findById("JOB-002")->status, JobStatus::RUNNING);
+    EXPECT_EQ(jobRepo_->findById("JOB-003")->status, JobStatus::WAITING);
+
+    svc_->completeCurrentJob();
+    EXPECT_EQ(jobRepo_->findById("JOB-002")->status, JobStatus::DONE);
+    EXPECT_EQ(jobRepo_->findById("JOB-003")->status, JobStatus::RUNNING);
+}
