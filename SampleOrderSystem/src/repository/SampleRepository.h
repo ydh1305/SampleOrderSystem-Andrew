@@ -4,8 +4,9 @@
 #include <optional>
 #include "model/Sample.h"
 #include "storage/JsonStorage.h"
+#include "ISampleRepository.h"
 
-class SampleRepository {
+class SampleRepository : public ISampleRepository {
 public:
     explicit SampleRepository(const std::string& filePath = "data/samples.json");
 

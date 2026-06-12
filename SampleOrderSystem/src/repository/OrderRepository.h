@@ -5,8 +5,9 @@
 #include "model/Order.h"
 #include "model/OrderStatus.h"
 #include "storage/JsonStorage.h"
+#include "IOrderRepository.h"
 
-class OrderRepository {
+class OrderRepository : public IOrderRepository {
 public:
     explicit OrderRepository(const std::string& filePath = "data/orders.json");
 
