@@ -141,6 +141,42 @@ TEST_F(MonitoringControllerTest, ShowStockStatusCallsBothRepos) {
     ctrl.showStockStatus();
 }
 
+// 재고 고갈(stock=0) -> 빨간색(\033[31m) 코드 출력
+TEST_F(MonitoringControllerTest, StockDepletedShowsRedColor) {
+    std::vector<Sample> samples = {{"S-001", "Wafer", 0.8, 0.92, 0}};
+    EXPECT_CALL(mockSampleRepo_, findAll()).WillOnce(Return(samples));
+    EXPECT_CALL(mockOrderRepo_, findAll()).WillOnce(Return(std::vector<Order>{}));
+    MonitoringController ctrl(mockSampleRepo_, mockOrderRepo_, out_, in_);
+    ctrl.showStockStatus();
+    EXPECT_THAT(out_.str(), ::testing::HasSubstr("\033[31m"));
+}
+
+// 재고 부족(RESERVED+CONFIRMED > stock) -> 노란색(\033[33m) 코드 출력
+TEST_F(MonitoringControllerTest, StockShortShowsYellowColor) {
+    std::vector<Sample> samples = {{"S-001", "Wafer", 0.8, 0.92, 10}};
+    std::vector<Order> orders = {
+        {"ORD-001", "S-001", "Alice", 15, OrderStatus::RESERVED, "2026-06-12", ""}
+    };
+    EXPECT_CALL(mockSampleRepo_, findAll()).WillOnce(Return(samples));
+    EXPECT_CALL(mockOrderRepo_, findAll()).WillOnce(Return(orders));
+    MonitoringController ctrl(mockSampleRepo_, mockOrderRepo_, out_, in_);
+    ctrl.showStockStatus();
+    EXPECT_THAT(out_.str(), ::testing::HasSubstr("\033[33m"));
+}
+
+// 재고 여유(stock >= 대기 수량) -> 초록색(\033[32m) 코드 출력
+TEST_F(MonitoringControllerTest, StockSufficientShowsGreenColor) {
+    std::vector<Sample> samples = {{"S-001", "Wafer", 0.8, 0.92, 100}};
+    std::vector<Order> orders = {
+        {"ORD-001", "S-001", "Alice", 20, OrderStatus::RESERVED, "2026-06-12", ""}
+    };
+    EXPECT_CALL(mockSampleRepo_, findAll()).WillOnce(Return(samples));
+    EXPECT_CALL(mockOrderRepo_, findAll()).WillOnce(Return(orders));
+    MonitoringController ctrl(mockSampleRepo_, mockOrderRepo_, out_, in_);
+    ctrl.showStockStatus();
+    EXPECT_THAT(out_.str(), ::testing::HasSubstr("\033[32m"));
+}
+
 // ==================== ReleaseControllerTest ====================
 
 class ReleaseControllerTest : public ::testing::Test {
