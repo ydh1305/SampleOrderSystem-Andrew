@@ -53,6 +53,10 @@ RESERVED → (거절) → REJECTED
 - **빌드 환경**: Visual Studio 2022 (MSVC v143), Windows x64
 - **데이터 저장**: JSON 파일 (자체 구현 JSON 파서, 외부 라이브러리 없음)
 - **UI**: 콘솔 기반 (ANSI VT100 색상 코드 지원)
+- **테스트 프레임워크**: Google Mock (gmock) 1.11.0 — NuGet 패키지로 설치
+  - 패키지 경로: `packages/gmock.1.11.0/`
+  - 테스트 프로젝트에서 `gmock.targets` import하여 사용
+  - Mock 객체 및 EXPECT_*/ASSERT_* 매크로로 단위 테스트 작성
 
 ---
 
@@ -172,6 +176,10 @@ Q: 종료 / R: 즉시 갱신 / +/-: 갱신 주기 조정
 - 프로덕션 코드 작성 전 반드시 실패하는 테스트가 먼저 존재해야 한다.
 - 테스트 없이 작성된 프로덕션 코드는 삭제 후 TDD 사이클로 재작성한다.
 - 예외 허용 대상 (사용자 확인 필요): Throwaway 프로토타입, 설정 파일, 생성 코드
+- **테스트 프레임워크**: Google Mock (gmock) 1.11.0 사용 (NuGet 설치 완료)
+  - 테스트 파일은 `SampleOrderSystemTests` 프로젝트에 작성
+  - `#include <gmock/gmock.h>` 로 포함
+  - `TEST()`, `TEST_F()`, `EXPECT_EQ()`, `ASSERT_EQ()` 등 gtest/gmock 매크로 사용
 
 **REFACTOR 단계는 절대 생략할 수 없다.**
 - GREEN 통과 후 REFACTOR 없이 다음 작업으로 넘어가는 것을 금지한다.
