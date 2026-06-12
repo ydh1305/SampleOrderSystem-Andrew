@@ -5,34 +5,37 @@
 | 날짜 | 2026-06-12 |
 | Phase | Phase 2 — 도메인 모델 |
 | 브랜치 | feature/phase-2-domain-models |
-| 최종 결과 | ❌ **FAIL** |
+| 최종 결과 | ⚠️ **WARN** (FAIL 항목 수정 완료, WARN 항목 잔존) |
 
-**실패 원인 요약**: verify-docs FAIL (3건), verify-compliance FAIL (1건)
+**수정 완료**: 검증 시 발견된 FAIL 4건 모두 수정 완료 (2026-06-12)
 
 ---
 
-## 1. verify-docs — ❌ FAIL (FAIL 3건, WARN 3건)
+## 1. verify-docs — ✅ FAIL 수정 완료 (WARN 3건 잔존)
 
-### FAIL 1 — 주문번호 순번 정책 충돌 ❌ 미수정
+### FAIL 1 — 주문번호 순번 정책 충돌 ✅ 수정 완료
 
 - **충돌 위치**
   - SPEC.md 5절 + `docs/features/3.order-placement.md`: "시스템 전체 단조 증가, 재시작 후에도 유지"
   - `docs/database.md`, `docs/api.md`, `temp_docs/phase-6-order-placement.md` TDD: "날짜별 독립 순번, 날짜 바뀌면 0001 리셋"
 - **기준**: `docs/database.md` 방식(날짜별 독립 순번)을 구현 기준으로 채택
 - **필요 조치**: SPEC.md 5절, `docs/features/3.order-placement.md` 내용을 database.md 방식으로 수정
+- **수정 내용**: SPEC.md 5절 + 3.order-placement.md를 날짜별 독립 순번 방식으로 수정 (커밋 36e8482)
 
-### FAIL 2 — phase-4-main-menu.md 내부 자기 모순 (생산라인 대기 수) ❌ 미수정
+### FAIL 2 — phase-4-main-menu.md 내부 자기 모순 (생산라인 대기 수) ✅ 수정 완료
 
 - **충돌 위치**
   - 구조체 주석 + TDD T8 표: "PRODUCING 상태 수" 기준으로 기술
   - 실제 Mock 코드: `findByStatus(JobStatus::WAITING)` 사용
 - **필요 조치**: 구조체 주석과 TDD T8 표를 WAITING 기준으로 통일
+- **수정 내용**: 구조체 주석 + TDD T8을 WAITING 기준으로 통일 (커밋 36e8482)
 
-### FAIL 3 — docs/features/4.order-approval.md ProductionJob 필드 누락 ❌ 미수정
+### FAIL 3 — docs/features/4.order-approval.md ProductionJob 필드 누락 ✅ 수정 완료
 
 - **문제**: `startedAt`, `completedAt` 필드가 코드 예시에서 누락됨
 - **불일치 대상**: SPEC.md, `docs/database.md` 등 다른 모든 문서에는 해당 필드 포함
 - **필요 조치**: `4.order-approval.md` 코드 예시에 `startedAt`, `completedAt` 필드 추가
+- **수정 내용**: startedAt, completedAt 필드 코드 예시에 추가 (커밋 36e8482)
 
 ### WARN 1 — docs/features/6.production-line.md 큐 구현 표현 불일치 ❌ 미수정
 
@@ -89,9 +92,9 @@
 
 ---
 
-## 3. verify-compliance — ❌ FAIL (FAIL 1건, WARN 1건)
+## 3. verify-compliance — ✅ FAIL 수정 완료 (WARN 1건 잔존)
 
-### FAIL 1 — fromJson 누락 필드 기본값 처리 없음 ❌ 미수정
+### FAIL 1 — fromJson 누락 필드 기본값 처리 없음 ✅ 수정 완료
 
 - **영향 파일**
   - `SampleOrderSystem/src/model/Sample.cpp`
@@ -100,6 +103,9 @@
 - **문제**: `Sample::fromJson`, `Order::fromJson`, `ProductionJob::fromJson` 세 곳 모두 `json["key"]` 직접 참조 방식 사용 → 키 없으면 `std::out_of_range` 예외 발생
 - **설계 요구사항**: `contains(key)` 확인 후 기본값 처리
 - **필요 조치**: 세 파일의 `fromJson` 구현에 `contains(key)` 가드 추가
+- **수정 내용**: Sample/Order/ProductionJob fromJson에 contains() 가드 추가, TDD 사이클 준수
+  - RED: 커밋 2c2e689 (T12~T14 실패 테스트 추가)
+  - GREEN+REFACTOR: 커밋 960cac4 (contains() 가드 구현, 33/33 GREEN)
 
 ### WARN 1 — REFACTOR 검토 보고 누락 ❌ 미수정
 
@@ -151,26 +157,18 @@
 
 ## 다음 단계 권장 액션
 
-### 즉시 수정 필요 (블로커)
+### ✅ 완료된 항목 (FAIL → 수정됨)
 
-1. **[compliance] fromJson 기본값 처리 누락**
-   - 파일: `model/Sample.cpp`, `model/Order.cpp`, `model/ProductionJob.cpp`
-   - `json["key"]` → `contains(key)` 확인 후 기본값 반환 패턴으로 수정
-
-2. **[docs] 주문번호 순번 정책 충돌 해소**
-   - `docs/SPEC.md` 5절, `docs/features/3.order-placement.md`를 날짜별 독립 순번(database.md 기준)으로 수정
-
-3. **[docs] phase-4-main-menu.md 생산라인 대기 수 기준 통일**
-   - 구조체 주석 + TDD T8 표를 `JobStatus::WAITING` 기준으로 수정
-
-4. **[docs] docs/features/4.order-approval.md ProductionJob 필드 보완**
-   - `startedAt`, `completedAt` 필드를 코드 예시에 추가
+1. **[compliance] fromJson 기본값 처리** — contains() 가드 추가 완료 (커밋 960cac4)
+2. **[docs] 주문번호 순번 정책 충돌** — 날짜별 독립 순번으로 통일 완료 (커밋 36e8482)
+3. **[docs] phase-4-main-menu.md 생산라인 집계 기준** — WAITING 기준으로 통일 완료 (커밋 36e8482)
+4. **[docs] 4.order-approval.md ProductionJob 필드** — startedAt/completedAt 추가 완료 (커밋 36e8482)
 
 ### 권장 수정 (품질 개선)
 
-5. **[docs] SPEC.md 6절 저장 방식 확정 표현으로 수정** — "JSON 파일"로 명시
-6. **[docs] docs/features/6.production-line.md 큐 표현 정렬** — architecture.md 기준으로 통일
-7. **[docs] docs/api.md Phase 6 전략 주석 추가** — PLAN.md 내용 반영
-8. **[tdd] 이후 Phase부터 GREEN 커밋 별도 분리** — 3단계 이력 유지
-9. **[tdd] JobStatus::RUNNING, DONE 직접 검증 테스트 추가** — Phase 3 착수 전 보완
-10. **[coverage] ConsoleUtil.cpp 커버리지 개선** — Phase 3 이후 해소 예정
+1. **[docs] SPEC.md 6절 저장 방식 확정 표현으로 수정** — "JSON 파일"로 명시
+2. **[docs] docs/features/6.production-line.md 큐 표현 정렬** — architecture.md 기준으로 통일
+3. **[docs] docs/api.md Phase 6 전략 주석 추가** — PLAN.md 내용 반영
+4. **[tdd] 이후 Phase부터 GREEN 커밋 별도 분리** — 3단계 이력 유지
+5. **[tdd] JobStatus::RUNNING, DONE 직접 검증 테스트 추가** — Phase 3 착수 전 보완
+6. **[coverage] ConsoleUtil.cpp 커버리지 개선** — Phase 3 이후 해소 예정
