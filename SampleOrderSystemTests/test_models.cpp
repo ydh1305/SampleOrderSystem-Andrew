@@ -2,6 +2,7 @@
 #include "model/OrderStatus.h"
 #include "model/JobStatus.h"
 #include "model/Sample.h"
+#include "model/Order.h"
 
 // Cycle 1: Enum string conversion (T1~T3)
 
@@ -85,4 +86,50 @@ TEST(SampleModelTest, RoundTrip) {
     EXPECT_DOUBLE_EQ(restored.avgProductionTime, original.avgProductionTime);
     EXPECT_DOUBLE_EQ(restored.yieldRate,   original.yieldRate);
     EXPECT_EQ(restored.stock,              original.stock);
+}
+
+// Cycle 3: Order serialization (T7~T9)
+
+// T7: status field serialized as string
+TEST(OrderModelTest, StatusFieldSerializedAsString) {
+    Order o;
+    o.status = OrderStatus::RESERVED;
+    EXPECT_EQ(o.toJson()["status"].asString(), "RESERVED");
+}
+
+// T8: fromJson restores status as enum
+TEST(OrderModelTest, FromJsonRestoresStatus) {
+    std::map<std::string, JsonValue> obj;
+    obj["orderId"]      = JsonValue(std::string("ORD-20260612-0001"));
+    obj["sampleId"]     = JsonValue(std::string("S-001"));
+    obj["customerName"] = JsonValue(std::string("SK Hynix"));
+    obj["quantity"]     = JsonValue(150);
+    obj["status"]       = JsonValue(std::string("CONFIRMED"));
+    obj["createdAt"]    = JsonValue(std::string("2026-06-12 09:00:00"));
+    obj["updatedAt"]    = JsonValue(std::string("2026-06-12 09:00:00"));
+
+    Order o = Order::fromJson(JsonValue(std::move(obj)));
+    EXPECT_EQ(o.status, OrderStatus::CONFIRMED);
+    EXPECT_EQ(o.quantity, 150);
+}
+
+// T9: toJson -> fromJson round-trip
+TEST(OrderModelTest, RoundTrip) {
+    Order original;
+    original.orderId      = "ORD-20260612-0001";
+    original.sampleId     = "S-001";
+    original.customerName = "SK Hynix";
+    original.quantity     = 150;
+    original.status       = OrderStatus::PRODUCING;
+    original.createdAt    = "2026-06-12 09:00:00";
+    original.updatedAt    = "2026-06-12 10:00:00";
+
+    Order restored = Order::fromJson(original.toJson());
+    EXPECT_EQ(restored.orderId,      original.orderId);
+    EXPECT_EQ(restored.sampleId,     original.sampleId);
+    EXPECT_EQ(restored.customerName, original.customerName);
+    EXPECT_EQ(restored.quantity,     original.quantity);
+    EXPECT_EQ(restored.status,       original.status);
+    EXPECT_EQ(restored.createdAt,    original.createdAt);
+    EXPECT_EQ(restored.updatedAt,    original.updatedAt);
 }
