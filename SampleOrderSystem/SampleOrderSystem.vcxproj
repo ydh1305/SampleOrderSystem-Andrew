@@ -104,6 +104,7 @@
     <ClCompile Include="src\controller\ProductionController.cpp" />
     <ClCompile Include="src\controller\ReleaseController.cpp" />
     <ClCompile Include="src\controller\MainController.cpp" />
+    <ClCompile Include="src\util\DummyDataLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

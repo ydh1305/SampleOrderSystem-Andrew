@@ -91,6 +91,7 @@
     <ClCompile Include="test_model_utils.cpp" />
     <ClCompile Include="test_views.cpp" />
     <ClCompile Include="test_integration.cpp" />
+    <ClCompile Include="test_dummy_data.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonValue.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonParser.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\storage\JsonStorage.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="..\SampleOrderSystem\src\controller\ReleaseController.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\controller\ProductionController.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\controller\MainController.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\util\DummyDataLoader.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\view\SampleView.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\view\OrderView.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\view\MonitoringView.cpp" />
