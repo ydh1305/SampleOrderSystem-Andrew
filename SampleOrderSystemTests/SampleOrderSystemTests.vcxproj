@@ -92,6 +92,7 @@
     <ClCompile Include="..\SampleOrderSystem\src\model\Sample.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\model\Order.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\model\ProductionJob.cpp" />
+    <ClCompile Include="..\SampleOrderSystem\src\model\ProductionCalculator.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\SampleRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\OrderRepository.cpp" />
     <ClCompile Include="..\SampleOrderSystem\src\repository\ProductionJobRepository.cpp" />
