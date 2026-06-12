@@ -175,3 +175,55 @@ TEST(ProductionJobModelTest, RoundTrip) {
     EXPECT_EQ(restored.startedAt,   original.startedAt);
     EXPECT_EQ(restored.completedAt, original.completedAt);
 }
+
+// Cycle 5: fromJson missing field defaults (T12~T14)
+
+// T12: Sample::fromJson with missing optional fields returns defaults
+TEST(SampleModelTest, FromJsonMissingFieldsReturnsDefault) {
+    std::map<std::string, JsonValue> obj;
+    obj["sampleId"] = JsonValue(std::string("S-099"));
+    // name, avgProductionTime, yieldRate, stock 누락
+    JsonValue json(std::move(obj));
+
+    Sample s = Sample::fromJson(json);
+    EXPECT_EQ(s.sampleId, "S-099");
+    EXPECT_EQ(s.name, "");
+    EXPECT_DOUBLE_EQ(s.avgProductionTime, 0.0);
+    EXPECT_DOUBLE_EQ(s.yieldRate, 0.0);
+    EXPECT_EQ(s.stock, 0);
+}
+
+// T13: Order::fromJson with missing updatedAt returns empty string
+TEST(OrderModelTest, FromJsonMissingUpdatedAtReturnsDefault) {
+    std::map<std::string, JsonValue> obj;
+    obj["orderId"]      = JsonValue(std::string("ORD-20260612-0099"));
+    obj["sampleId"]     = JsonValue(std::string("S-001"));
+    obj["customerName"] = JsonValue(std::string("Test Corp"));
+    obj["quantity"]     = JsonValue(10);
+    obj["status"]       = JsonValue(std::string("RESERVED"));
+    obj["createdAt"]    = JsonValue(std::string("2026-06-12 10:00:00"));
+    // updatedAt 누락
+    JsonValue json(std::move(obj));
+
+    Order o = Order::fromJson(json);
+    EXPECT_EQ(o.updatedAt, "");
+}
+
+// T14: ProductionJob::fromJson with missing startedAt/completedAt returns empty string
+TEST(ProductionJobModelTest, FromJsonMissingTimeFieldsReturnsDefault) {
+    std::map<std::string, JsonValue> obj;
+    obj["jobId"]       = JsonValue(std::string("JOB-20260612-0099"));
+    obj["orderId"]     = JsonValue(std::string("ORD-20260612-0001"));
+    obj["sampleId"]    = JsonValue(std::string("S-001"));
+    obj["shortage"]    = JsonValue(100);
+    obj["actualProd"]  = JsonValue(120);
+    obj["totalTime"]   = JsonValue(96.0);
+    obj["status"]      = JsonValue(std::string("WAITING"));
+    obj["enqueuedAt"]  = JsonValue(std::string("2026-06-12 10:00:00"));
+    // startedAt, completedAt 누락
+    JsonValue json(std::move(obj));
+
+    ProductionJob job = ProductionJob::fromJson(json);
+    EXPECT_EQ(job.startedAt,   "");
+    EXPECT_EQ(job.completedAt, "");
+}
