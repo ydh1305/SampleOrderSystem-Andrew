@@ -1,6 +1,6 @@
-#include <iostream>
+#include "controller/MainController.h"
 
 int main() {
-    std::cout << "Hello World\n";
+    MainController().run();
     return 0;
 }
